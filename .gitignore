@@ -4,4 +4,3 @@ __pycache__/
 *.pot
 db.sqlite3
 .idea/
-settings.py

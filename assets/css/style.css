@@ -9,7 +9,7 @@
 # General
 --------------------------------------------------------------*/
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Courier New", sans-serif;
   background: #0c0b09;
   color: #fff;
 }
@@ -103,6 +103,23 @@ h1, h2, h3, h4, h5, h6 {
   color: #1a1814;
 }
 
+.cart-icon {
+  position: fixed;
+  display: block;
+  left: 15px;
+  bottom: 15px;
+  z-index: 1200;
+  width: 66px;
+  height: 66px;
+  border-radius: 50px;
+}
+
+
+.cart-icon img{
+max-width: 66px;
+border-radius: 50% ;
+}
+
 /*--------------------------------------------------------------
 # Disable aos animation delay on mobile devices
 --------------------------------------------------------------*/
@@ -120,6 +137,11 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 14px;
   transition: all 0.5s;
 }
+
+
+
+
+
 
 #topbar.topbar-scrolled {
   top: -40px;
@@ -188,7 +210,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 300;
   letter-spacing: 1px;
   text-transform: uppercase;
-  font-family: "Poppins", sans-serif;
+  font-family: "Impact", sans-serif;
 }
 
 #header .logo a {
@@ -542,9 +564,27 @@ h1, h2, h3, h4, h5, h6 {
   border: 2px solid #cda45e;
 }
 
-#hero .btn-menu:hover, #hero .btn-book:hover {
+
+.buy-btn {
+  font-size: 16px;
+    padding: 0 20px 2px 20px;
+    background: #cda45e;
+    color: #fff;
+    transition: 0.3s;
+    border-radius: 50px;
+  border: 0px;
+}
+
+.buy-btn:hover{
+  background: white;
+  color: #cda45e;
+
+}
+
+
+#hero .btn-menu:hover{
   background: #cda45e;
-  color: #fff;
+  color: white;
 }
 
 #hero .btn-book {
@@ -955,11 +995,25 @@ section {
   margin-top: 50px;
 }
 
-.menu .menu-img {
+.menu-img {
   width: 70px;
   border-radius: 50%;
   float: left;
   border: 5px solid rgba(255, 255, 255, 0.2);
+}
+
+
+.padpad{
+
+    padding-top: 130px;
+}
+
+
+
+@media (max-width: 992px) {
+  .padpad {
+    padding-top: 118px;
+  }
 }
 
 .menu .menu-content {
@@ -971,7 +1025,9 @@ section {
 }
 
 .menu .menu-content::after {
-  content: "......................................................................" "...................................................................." "....................................................................";
+  content: "......................................................................"
+ "...................................................................."
+ "....................................................................";
   position: absolute;
   left: 20px;
   right: 0;
@@ -1777,6 +1833,18 @@ section {
   transition: 0.3s;
   border-radius: 50px;
 }
+
+#menu > div > div.row.menu-container.aos-init.aos-animate > div > div.text-right > a {
+  border: 0;
+  background: none;
+  font-size: 16px;
+  padding: 0 20px 2px 20px;
+  background: #cda45e;
+  color: #fff;
+  transition: 0.3s;
+  border-radius: 50px;
+}
+
 
 #footer .footer-top .footer-newsletter form input[type="submit"]:hover {
   background: #d3af71;

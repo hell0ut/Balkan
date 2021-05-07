@@ -1,0 +1,116 @@
+{% extends 'home/base_temaplate.html' %}
+{% load static %}
+
+{% block links %}
+<link href="{% static 'css/cart.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+
+
+
+<div class="wrap cf">
+      <div class="section-title">
+      <h2>Корзина</h2>
+      <p>Ваш заказ</p>
+    </div>
+  <div class="cart">
+<!--    <ul class="tableHead">
+      <li class="prodHeader">Product</li>
+      <li>Quantity</li>
+      <li>Total</li>
+       <li>Remove</li>
+    </ul>-->
+    <ul class="cartWrap">
+        {% for item in order.orderitem_set.all %}
+      <li class="items odd">
+
+    <div class="infoWrap">
+        <div class="cartSection">
+        <img src="{{ item.product.imageURL }}" class="menu-img" alt="">
+          <h3>{{ item.product.name }}</h3>
+          <h3>{{ item.product.price }}₴</h3>
+        </div>
+
+
+        <div class="prodTotal cartSection">
+            <span class="qt-minus update-cart" data-product="{{ item.product.id }}" data-action="remove">-</span>
+            <span class="qt">{{ item.quantity }}</span>
+            <span data-product="{{ item.product.id }}" data-action="add" class="qt-plus update-cart">+</span>
+          <p>{{ item.get_total }}₴</p>
+
+              <div class="cartSection removeWrap">
+           <a href="#" data-product="{{ item.product.id }}" data-action="delete" class="remove update-cart">x</a>
+        </div>
+            </div>
+      </div>
+      </li>
+    {% endfor %}
+
+      <!--<li class="items even">Item 2</li>-->
+
+    </ul>
+  </div>
+
+<!--  <div class="promoCode"><label for="promo">Have A Promo Code?</label><input type="text" name="promo" placholder="Enter Code" />
+  <a href="#" class="btn"></a></div>
+-->
+  <div class="subtotal cf">
+    <ul>
+      <li class="totalRow"><span class="label">Продукты</span><span class="value">{{ order.get_cart_total }}₴</span></li>
+
+          <li class="totalRow"><span class="label">Доставка</span><span class="value"> {{ order.shipping_price }}₴</span></li>
+
+            <li class="totalRow final"><span class="label">Итоговая сумма</span><span class="value">{{ order.end_price }}₴</span></li>
+      <li class="totalRow">     <form action="{% url 'cart' %} " method="post">
+    {% csrf_token %}
+          {{ form.ren }}
+    <input type="submit" value="Submit">
+</form></li>
+    </ul>
+
+    <form method="POST" action="https://www.liqpay.ua/api/3/checkout" accept-charset="utf-8">
+         <input type="hidden" name="data" value="{{ checkout_data }}"/>
+         <input type="hidden" name="signature" value="{{ signature }}"/>
+         <input type="image" src="//static.liqpay.ua/buttons/p1ru.radius.png"/>
+
+    </form>
+  </div>
+     <section id="book-a-table" class="book-a-table">
+      <div class="container" data-aos="fade-up">
+
+        <form action="forms/book-a-table.php" method="post" role="form" class="php-email-form" data-aos="fade-up" data-aos-delay="100">
+          <div class="form-row">
+            <div class="col-lg-4 col-md-6 form-group">
+              <input type="text" name="name" class="form-control" id="name" placeholder="Ваше имя" data-rule="minlen:4" data-msg="Пожалуйста, введите хотя бы 4 символа">
+              <div class="validate"></div>
+            </div>
+            <div class="col-lg-4 col-md-6 form-group">
+              <input type="text" class="form-control" name="phone" id="phone" placeholder="Ваш номер телефона" data-rule="minlen:4" data-msg="Пожалуйста, введите хотя бы 4 символа">
+              <div class="validate"></div>
+            </div>
+            <div class="col-lg-4 col-md-6 form-group">
+              <input type="text" name="date" class="form-control" id="date" placeholder="Адрес" data-rule="minlen:4" data-msg="Пожалуйста, введите хотя бы 4 символа">
+              <div class="validate"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <textarea class="form-control" name="message" rows="5" placeholder="Сообщение"></textarea>
+            <div class="validate"></div>
+          </div>
+          <div class="mb-3">
+            <div class="loading">Загрузка</div>
+            <div class="error-message"></div>
+            <div class="sent-message">Ваш запрос на бронирование столика был отправлен. Мы свяжемся с вами как можно скорее!</div>
+          </div>
+          <div class="text-center"><button type="submit">Забронировать столик</button></div>
+        </form>
+
+      </div>
+    </section><!-- End Book A Table Section -->
+</div>
+
+
+
+{% endblock content %}

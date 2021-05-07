@@ -13,10 +13,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import settings
 import os
-from os.path import dirname,abspath
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = dirname(dirname(abspath(__file__)))
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -58,7 +57,7 @@ ROOT_URLCONF = 'Balkan.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': os.path.join(BASE_DIR , 'templates')
+        'DIRS': [BASE_DIR / 'templates']
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -81,7 +80,7 @@ WSGI_APPLICATION = 'Balkan.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME':  os.path.join(BASE_DIR , 'db.sqlite3')
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -124,10 +123,10 @@ USE_TZ = True
 
 STATIC_ROOT = 'static'
 
-STATIC_URL = '/static/'
+STATIC_URL = '/assets/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'assets'),
 )
 
 # Default primary key field type

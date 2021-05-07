@@ -1,1 +1,1 @@
-web: gunicorn Balkan.wsgi.py
+web: gunicorn balkan.wsgi --log-file -

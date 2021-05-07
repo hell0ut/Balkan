@@ -1,1 +1,1 @@
-web: gunicorn Balkan.wsgi.pyg
+web: gunicorn Balkan.wsgi.py

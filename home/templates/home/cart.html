@@ -10,7 +10,7 @@
 
 
 
-<div class="wrap cf">
+<div class="wrap cf padpad">
       <div class="section-title">
       <h2>Корзина</h2>
       <p>Ваш заказ</p>
@@ -22,93 +22,103 @@
       <li>Total</li>
        <li>Remove</li>
     </ul>-->
-    <ul class="cartWrap">
-        {% for item in order.orderitem_set.all %}
-      <li class="items odd">
 
-    <div class="infoWrap">
-        <div class="cartSection">
-        <img src="{{ item.product.imageURL }}" class="menu-img" alt="">
-          <h3>{{ item.product.name }}</h3>
-          <h3>{{ item.product.price }}₴</h3>
+        {% for item in order.orderitem_set.all %}
+
+
+    <div class="menuitem">
+
+        <div class="cartSection col60" style="justify-content: flex-start">
+        <img src="{{ item.product.imageURL }}" class="menu-img" alt="" style="height: 100% ;width: auto">
+            <div class="iteminf">
+              <h3>{{ item.product.name }}</h3>
+            </div>
         </div>
 
 
-        <div class="prodTotal cartSection">
+        <div class="cartSection col40" style="justify-content: space-between">
+            <div class="qtwrap">
             <span class="qt-minus update-cart" data-product="{{ item.product.id }}" data-action="remove">-</span>
             <span class="qt">{{ item.quantity }}</span>
             <span data-product="{{ item.product.id }}" data-action="add" class="qt-plus update-cart">+</span>
-          <p>{{ item.get_total }}₴</p>
+            </div>
+          <p style="  padding: 0 0 0 0;
+  margin-top: 0;
+  margin-bottom: 0;">{{ item.get_total }}₴</p>
 
-              <div class="cartSection removeWrap">
            <a href="#" data-product="{{ item.product.id }}" data-action="delete" class="remove update-cart">x</a>
         </div>
-            </div>
-      </div>
-      </li>
+    </div>
+
+
     {% endfor %}
 
       <!--<li class="items even">Item 2</li>-->
 
-    </ul>
+
   </div>
 
 <!--  <div class="promoCode"><label for="promo">Have A Promo Code?</label><input type="text" name="promo" placholder="Enter Code" />
   <a href="#" class="btn"></a></div>
 -->
-  <div class="subtotal cf">
-    <ul>
-      <li class="totalRow"><span class="label">Продукты</span><span class="value">{{ order.get_cart_total }}₴</span></li>
+  <div class="subtotal cf" style="width:100%">
 
-          <li class="totalRow"><span class="label">Доставка</span><span class="value"> {{ order.shipping_price }}₴</span></li>
+      <section id="book-a-table" class="book-a-table">
+      <div class="container " data-aos="fade-up" >
+
+        <form action="{% url 'cart' %}" method="post" role="form" class="php-email-form checkout" data-aos="fade-up" data-aos-delay="100" >
+              {% csrf_token %}
+            <div class="col1-2">
+            <div style="display: flex;flex-direction: column">
+            <div class="form-group">
+              <input type="text" name="name" class="form-control" id="name" placeholder="Ваше имя" data-rule="minlen:4" data-msg="Пожалуйста, введите хотя бы 4 символа">
+              <div class="validate"></div>
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" name="phone" id="phone" placeholder="Номер телефона" data-rule="minlen:4" data-msg="Пожалуйста, введите хотя бы 4 символа">
+              <div class="validate"></div>
+            </div>
+            <div class="form-group">
+              <input type="text" name="adress" class="form-control" id="adress" placeholder="Адрес" data-rule="minlen:4" data-msg="Пожалуйста, введите хотя бы 4 символа">
+              <div class="validate"></div>
+            </div>
+          </div>
+      <!--    <div class="form-group">
+            <textarea class="form-control" name="message" rows="5" placeholder="Уточните заказ"></textarea>
+            <div class="validate"></div>
+          </div>-->
+          <div class="mb-3">
+            <div class="loading">Загрузка</div>
+            <div class="error-message"></div>
+            <div class="sent-message">Ваш заказ принят. Мы свяжемся с вами как можно скорее!</div>
+          </div>
+          </div>
+
+        <ul class="col1-2">
+            <li class="totalRow"><span class="label">Продукты</span><span class="value">{{ order.get_cart_total }}₴</span></li>
+
+            <li class="totalRow"><span class="label">Доставка</span><span class="value"> {{ order.shipping_price }}₴</span></li>
 
             <li class="totalRow final"><span class="label">Итоговая сумма</span><span class="value">{{ order.end_price }}₴</span></li>
-      <li class="totalRow">     <form action="{% url 'cart' %} " method="post">
-    {% csrf_token %}
-          {{ form.ren }}
-    <input type="submit" value="Submit">
-</form></li>
-    </ul>
 
-    <form method="POST" action="https://www.liqpay.ua/api/3/checkout" accept-charset="utf-8">
+            <div class="text-right"><button type="submit">Сделать заказ</button></div>
+            </ul>
+            </form>
+
+          </div>
+
+    </section><!-- End Book A Table Section -->
+
+
+   <!-- <form method="POST" action="https://www.liqpay.ua/api/3/checkout" accept-charset="utf-8">
          <input type="hidden" name="data" value="{{ checkout_data }}"/>
          <input type="hidden" name="signature" value="{{ signature }}"/>
          <input type="image" src="//static.liqpay.ua/buttons/p1ru.radius.png"/>
 
-    </form>
+    </form>-->
+
   </div>
-     <section id="book-a-table" class="book-a-table">
-      <div class="container" data-aos="fade-up">
 
-        <form action="forms/book-a-table.php" method="post" role="form" class="php-email-form" data-aos="fade-up" data-aos-delay="100">
-          <div class="form-row">
-            <div class="col-lg-4 col-md-6 form-group">
-              <input type="text" name="name" class="form-control" id="name" placeholder="Ваше имя" data-rule="minlen:4" data-msg="Пожалуйста, введите хотя бы 4 символа">
-              <div class="validate"></div>
-            </div>
-            <div class="col-lg-4 col-md-6 form-group">
-              <input type="text" class="form-control" name="phone" id="phone" placeholder="Ваш номер телефона" data-rule="minlen:4" data-msg="Пожалуйста, введите хотя бы 4 символа">
-              <div class="validate"></div>
-            </div>
-            <div class="col-lg-4 col-md-6 form-group">
-              <input type="text" name="date" class="form-control" id="date" placeholder="Адрес" data-rule="minlen:4" data-msg="Пожалуйста, введите хотя бы 4 символа">
-              <div class="validate"></div>
-            </div>
-          </div>
-          <div class="form-group">
-            <textarea class="form-control" name="message" rows="5" placeholder="Сообщение"></textarea>
-            <div class="validate"></div>
-          </div>
-          <div class="mb-3">
-            <div class="loading">Загрузка</div>
-            <div class="error-message"></div>
-            <div class="sent-message">Ваш запрос на бронирование столика был отправлен. Мы свяжемся с вами как можно скорее!</div>
-          </div>
-          <div class="text-center"><button type="submit">Забронировать столик</button></div>
-        </form>
-
-      </div>
-    </section><!-- End Book A Table Section -->
 </div>
 
 

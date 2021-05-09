@@ -45,12 +45,12 @@
 		document.cookie ='device=' + device + ";domain=;path=/"
 
 	</script>
-  <title>Restaurantly Bootstrap Template - Index</title>
+  <title>Балкан Гриль</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="{% static 'img/logo.png' %}" rel="icon">
+  <link href="{% static 'img/inverted_logo_black.png' %}" rel="icon">
   <link href="{% static 'img/apple-touch-icon.png'%}" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
@@ -107,9 +107,10 @@
           <li><a href="#specials">Фирменные блюда</a></li>
           <li><a href="#gallery">Галерея</a></li>
           <li><a href="#contact">Контакты</a></li>
-          <li class="book-a-table text-center"><a href="{% url 'cart' %}">Корзина</a></li>
+            <li><a href="{% url 'delivery' %}">Доставка и оплата</a></li>
         </ul>
       </nav><!-- .nav-menu -->
+
 
     </div>
   </header><!-- End Header -->
@@ -150,7 +151,7 @@
               <li><i class="bx bx-chevron-right"></i> <a href="{% url 'store' %}#about">Про нас</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Меню</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Галерея</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Акции</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="{% url 'privacy_policy' %}">Договор публичной оферты</a></li>
             </ul>
           </div>
 

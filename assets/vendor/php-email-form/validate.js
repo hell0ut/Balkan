@@ -107,7 +107,7 @@
     
     this_form.find('.sent-message').slideUp();
     this_form.find('.error-message').slideUp();
-    this_form.find('.loading').slideDown();
+    this_form.find('.sent-message').slideDown();
 
     if ( $(this).data('recaptcha-site-key') ) {
       var recaptcha_site_key = $(this).data('recaptcha-site-key');
@@ -128,18 +128,18 @@
       type: "POST",
       url: action,
       data: data,
-      timeout: 40000
+      timeout: 4000
     }).done( function(msg){
       if (msg.trim() == 'OK') {
-        this_form.find('.loading').slideUp();
+        //this_form.find('.loading').slideUp();
         this_form.find('.sent-message').slideDown();
-        this_form.find("input:not(input[type=submit]), textarea").val('');
+       this_form.find("input:not(input[type=submit]), textarea").val('');
       } else {
-        this_form.find('.loading').slideUp();
+        //this_form.find('.loading').slideUp();
         if(!msg) {
           msg = 'Form submission failed and no error message returned from: ' + action + '<br>';
         }
-        this_form.find('.error-message').slideDown().html(msg);
+        //this_form.find('.error-message').slideDown().html(msg);
       }
     }).fail( function(data){
       console.log(data);
@@ -157,7 +157,7 @@
       if(data.responseText) {
         error_msg += data.responseText;
       }
-      this_form.find('.loading').slideUp();
+      //this_form.find('.loading').slideUp();
       this_form.find('.error-message').slideDown().html(error_msg);
     });
   }

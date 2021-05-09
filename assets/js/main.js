@@ -220,3 +220,6 @@
 })(jQuery);
 
 
+function reloadpage(){
+	location.reload()
+}

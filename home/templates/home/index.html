@@ -1,7 +1,7 @@
 {% extends 'home/base_temaplate.html' %}
 {% load static %}
 {% block content %}
-  <!-- ======= Hero Section ======= -->
+
   <section id="hero" class="d-flex align-items-center">
     <div class="container position-relative text-center text-lg-left" data-aos="zoom-in" data-aos-delay="100">
       <div class="row">
@@ -23,7 +23,7 @@
 
   <main id="main">
 <script>
-// When the user clicks on div, open the popup
+
 function myFunction(id) {
     var popup = document.getElementById("myPopup"+id);
     console.log("myPopup"+id)
@@ -52,7 +52,13 @@ function myFunction(id) {
         </ul>
       </div>
     </div>
-
+<div id="vk_playlist_-2000618831_11618831"></div>
+<script type="text/javascript" src="https://vk.com/js/api/openapi.js?169"></script>
+<script type="text/javascript">
+  (function() {
+    VK.Widgets.Playlist("vk_playlist_-2000618831_11618831", -2000618831, 11618831,'dab7ab69776c9902a2');
+  }());
+</script>
     <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
         {% for product in products %}
       <div class="col-lg-6 menu-item {{ product.category.filter_item }}">
@@ -161,6 +167,7 @@ function myFunction(id) {
         <form action="{% url 'store' %}" method="post" role="form" class="php-email-form" data-aos="fade-up" data-aos-delay="100">
             {% csrf_token %}
           <div class="form-row">
+
             <div class="col-lg-4 col-md-6 form-group">
               <input type="text" name="name" class="form-control" id="name" placeholder="Ваше имя" data-rule="minlen:4" data-msg="Пожалуйста, введите хотя бы 4 символа">
               <div class="validate"></div>
@@ -367,6 +374,12 @@ function myFunction(id) {
 
       </div>
     </section><!-- End Contact Section -->
+ <!--<form method="POST" action="https://www.liqpay.ua/api/3/checkout" accept-charset="utf-8" >
+         <input type="hidden" name="data" value="{{ checkout_data }}"/>
+         <input type="hidden" name="signature" value="{{ signature }}"/>
+         <input type="image" src="//static.liqpay.ua/buttons/p1ru.radius.png"/>
 
+    </form>
+-->
   </main><!-- End #main -->
 {% endblock %}

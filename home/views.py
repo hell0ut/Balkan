@@ -1,18 +1,33 @@
 from base64 import b64encode
 from django.shortcuts import render, redirect,reverse
 from .models import *
-from django.http import JsonResponse,HttpResponseRedirect
+from django.http import JsonResponse,HttpResponse,HttpResponseRedirect
 import json
 import hashlib
 import telebot
 import time
 from .forms import *
+import requests
+
 
 bot = telebot.TeleBot('1756376023:AAFNHBzVvdcx2rh1f_Xsc8lKbz0-pzFFqP0')
 ids = ['344548620', '412228067']
 
 
-def send_info(order,orderdict):
+def myajaxtestview(request):
+    device = request.COOKIES['device']
+    order_id=request.POST['order_id']
+    customer, created = Customer.objects.get_or_create(device=device)
+    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    orderdict={}
+    orderdict['phone'] = request.POST['phone']
+    orderdict['name'] = request.POST['name']
+    orderdict['adress'] = request.POST['adress']
+    ord_type='card'
+    send_info(order, orderdict,ord_type,order_id)
+    order.delete()
+
+def send_info(order,orderdict,ord_rype,ord_id=None):
     for id in ids:
         order_str=''
         items=list(order.orderitem_set.all())
@@ -21,6 +36,10 @@ def send_info(order,orderdict):
             order_str+=f'Продукт:{item.product.name}\nКоличество:{item.quantity}\nОписание:{item.product.description}\n_____________________\n'
         for key in orderdict.keys():
             order_str+='\n'+key+': '+orderdict[key]
+        if ord_rype=='card':
+            order_str+=f'\nЗаказ картой\nНомер заказа:{ord_id}'
+        else:
+            order_str+='\n ну бля обычный заказ нахуй тебе айди)'
         bot.send_message(id, order_str)
         time.sleep(1)
 
@@ -69,38 +88,37 @@ def privacy_policy(request):
 
 
 def cart(request):
-    try:
-        customer = request.user.customer
-    except:
-        device = request.COOKIES['device']
-        customer, created = Customer.objects.get_or_create(device=device)
-
+    device = request.COOKIES['device']
+    customer, created = Customer.objects.get_or_create(device=device)
+    order_id=device+str(time.time())
     order, created = Order.objects.get_or_create(customer=customer, complete=False)
     amount=order.get_cart_total
-    checkout={'public_key':'sandbox_i10524492600',
-              'private_key':'sandbox_cbF2ohPDgJoi3fiUrxEJjqh6BHVqzKaZKXIOX0xK',
+    checkout={'public_key':'i67910001878',
+              'private_key':'b8sDbUFGnZMTGXV5gy7z1tb687cqn5CqBsFoDw4f',
               'version':3,
               'action':'pay',
               'amount':amount,
               'currency':'UAH',
               'description':'test',
-              'order_id':'02345982345'
+              'order_id':order_id,
+              'result_url':'https://vk.com/morgenshtern?z=audio_playlist-2000618831_11618831%2F77ef1d65a8a66736ff'
               }
     enc_checkout=b64encode(json.dumps(checkout).encode("utf-8")).decode("ascii")
     sign_string=checkout['private_key']+enc_checkout+checkout['private_key']
     sign_enc = b64encode(hashlib.sha1(sign_string.encode('ascii')).digest()).decode("ascii")
-    print(sign_enc)
 
     CHOICES = [('M', 'Оплата наличными при получении'), ('F', 'Оплата картой')]
     Gender = forms.CharField(label='Gender', widget=forms.RadioSelect(choices=CHOICES))
-    context = {'order':order,'checkout_data':enc_checkout,'signature':sign_enc,'form':Gender}
+    context = {'order':order,'checkout_data':enc_checkout,'signature':sign_enc,'form':Gender,'order_id':order_id}
     if request.method == 'POST':
         orderdict={}
         orderdict['name']=request.POST['name']
         orderdict['adress']=request.POST['adress']
         orderdict['phone']=request.POST['phone']
-        send_info(order,orderdict)
+        ord_type='cash'
+        send_info(order,orderdict,ord_type,order_id)
         order.delete()
+        opt=request.POST['option']
         return render(request,'home/index.html')
     return render(request, 'home/cart.html', context)
 

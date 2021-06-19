@@ -53,7 +53,7 @@
 
     {% endfor %}
 
-      <!--<li class="items even">Item 2</li>-->
+
 
 
   </div>
@@ -62,14 +62,15 @@
   <a href="#" class="btn"></a></div>
 -->
   <div class="subtotal cf" style="width:100%">
-
+<input type="hidden" id="order_id" value="{{ order_id }}">
       <section id="book-a-table" class="book-a-table">
       <div class="container " data-aos="fade-up" >
 
-        <form action="{% url 'cart' %}" method="post" role="form" class="php-email-form checkout" data-aos="fade-up" data-aos-delay="100" >
+        <form action="{% url 'cart' %}" method="POST" role="form" class="php-email-form checkout" data-aos="fade-up" data-aos-delay="100">
               {% csrf_token %}
             <div class="col1-2">
             <div style="display: flex;flex-direction: column">
+
             <div class="form-group">
               <input type="text" name="name" class="form-control" id="name" placeholder="Ваше имя" data-rule="minlen:4" data-msg="Пожалуйста, введите хотя бы 4 символа">
               <div class="validate"></div>
@@ -82,6 +83,7 @@
               <input type="text" name="adress" class="form-control" id="adress" placeholder="Адрес" data-rule="minlen:4" data-msg="Пожалуйста, введите хотя бы 4 символа">
               <div class="validate"></div>
             </div>
+
           </div>
       <!--    <div class="form-group">
             <textarea class="form-control" name="message" rows="5" placeholder="Уточните заказ"></textarea>
@@ -95,31 +97,69 @@
           </div>
 
         <ul class="col1-2">
+
             <li class="totalRow"><span class="label">Продукты</span><span class="value">{{ order.get_cart_total }}₴</span></li>
 
             <li class="totalRow"><span class="label">Доставка</span><span class="value"> {{ order.shipping_price }}₴</span></li>
 
             <li class="totalRow final"><span class="label">Итоговая сумма</span><span class="value">{{ order.end_price }}₴</span></li>
+<li class="checkss">
+              <input type="radio" class="label" id="radio-card" name="option" value="card" onclick="PaymentFunc()">
+                <label for="radio-card">Картой</label>
+</li>
 
-            <div class="text-right"><button type="submit">Сделать заказ</button></div>
+             <li class="checkss">  <input class="label" type="radio" id="radio-cash" value="cash" name="option" checked onclick="PaymentFunc()">
+
+                <label for="radio-cash">Наличными</label>
+</li>
+
+           <li><div class="text-right"><button type="submit" id="subm-but">Сделать заказ</button></div></li>
             </ul>
+
             </form>
 
           </div>
-
+<form method="POST" action="https://www.liqpay.ua/api/3/checkout" accept-charset="utf-8" style="display: flex;justify-content: flex-end">
+ <input type="hidden" name="data" value="{{ checkout_data }}"/>
+ <input type="hidden" name="signature" value="{{ signature }}"/>
+ <input onclick="liqpayFunc()" type="image" src="//static.liqpay.ua/buttons/p1ru.radius.png" id="liqpay_butn" style="display: none;padding-top: -20px "/>
+</form>
     </section><!-- End Book A Table Section -->
+<script>
+    function PaymentFunc() {
+        if (document.getElementById("radio-cash").checked){
+            document.getElementById("subm-but").style.display = "inline-block";
+            document.getElementById("liqpay_butn").style.display = "none";
+        } else if (document.getElementById("radio-card").checked){
+            document.getElementById("subm-but").style.display = "none";
+            document.getElementById("liqpay_butn").style.display = "block";
+        }
 
+    }
 
-   <!-- <form method="POST" action="https://www.liqpay.ua/api/3/checkout" accept-charset="utf-8">
-         <input type="hidden" name="data" value="{{ checkout_data }}"/>
-         <input type="hidden" name="signature" value="{{ signature }}"/>
-         <input type="image" src="//static.liqpay.ua/buttons/p1ru.radius.png"/>
+    function  liqpayFunc(){
 
-    </form>-->
+                var ph= document.getElementById('phone').value;
+                var name= document.getElementById('name').value;
+                var adress= document.getElementById('adress').value;
+                var order_id = document.getElementById('order_id').value;
+        $.ajax({
+            type: 'post',
+            url: '{% url 'ajax-test-view' %}',
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}',phone:ph,adress:adress,name:name,order_id:order_id},
+            success: function () {
+              alert('second api submitted');
+            }
+          });
+
+    }
+    </script>
+
 
   </div>
 
 </div>
+
 
 
 

@@ -28,6 +28,7 @@ function updateUserOrder(productId, action){
 		   return response.json();
 		})
     		.then((data) => {
+    			console.log(window.location.pathname)
 		    if (window.location.pathname == "/cart/") location.reload();
 		});
 

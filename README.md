@@ -1,5 +1,5 @@
 # Balkan
-Self-made web project for local restaurant. Used Boostrap, Django, Javascript, LiqPay API, SQLite.<br>
+Self-made web project for local restaurant. Used Boostrap, Django, Javascript, LiqPay API, SQLite, TelegramAPI as temporal CRM :).<br>
 May be found,tested and revised <a href="https://hell0ut.pythonanywhere.com/">here</a>.
 <h3>Some Screenshots</h3>
 <img src="https://i.imgur.com/MMcvfs3.png"><br>
